@@ -1,0 +1,10 @@
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 110
+AllCops:
+  TargetRubyVersion: 2.7.0
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  ExcludedMethods: ["describe", "context"]
