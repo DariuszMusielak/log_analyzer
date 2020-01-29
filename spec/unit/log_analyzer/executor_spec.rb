@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe LogAnalyzer::Executor do
   subject { described_class.new(input_validator_double, processor_double).call(args) }
   let(:args) { [file_path] }

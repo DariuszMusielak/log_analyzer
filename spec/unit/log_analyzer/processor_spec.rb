@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 shared_examples 'runs through whole processor' do
   it do
     expect(reader_double_class).to receive(:new)

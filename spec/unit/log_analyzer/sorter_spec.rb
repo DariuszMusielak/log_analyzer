@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 shared_examples 'returns correct results' do
   it { expect(subject).to eq(expected_sorter_results) }
 end
