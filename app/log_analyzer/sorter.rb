@@ -2,34 +2,35 @@
 
 module LogAnalyzer
   class Sorter
-    def call(entries, analyze_type)
-      grouped_entries = group(entries)
-      sort(analyze_type, grouped_entries)
+    attr_reader :entries, :analyze_type
+
+    def call(entires, analyze_type)
+      grouped_entires = group(entires)
+      domains_with_entires = count(grouped_entires, analyze_type)
+      sort(domains_with_entires)
     end
 
     private
 
-    def sort(analyze_type, grouped_entries)
-      {
-        visits: sort_by_views(grouped_entries),
-        uniq_visits: sort_by_uniq_views(grouped_entries)
-      }.fetch(analyze_type)
+    def sort(domains_with_entires)
+      domains_with_entires.sort_by(&:values).reverse
     end
 
-    def group(entries)
-      entries.group_by { |log_entry| log_entry[:domain] }
+    def group(entires)
+      entires.group_by { |entry| entry[:domain] }
     end
 
-    def sort_by_views(grouped_entries)
-      grouped_entries.map do |domain, ip|
-        { domain: domain, count: ip.count }
-      end.sort_by(&:values).reverse
+    def count(grouped_entires, analyze_type)
+      grouped_entires.map do |domain, ips|
+        { domain: domain, count: count_entires(ips, analyze_type) }
+      end
     end
 
-    def sort_by_uniq_views(grouped_entries)
-      grouped_entries.map do |domain, ip|
-        { domain: domain, count: ip.uniq.count }
-      end.sort_by(&:values).reverse
+    def count_entires(ips, analyze_type)
+      case analyze_type
+      when :visits then ips.count
+      when :uniq_visits then ips.uniq.count
+      end
     end
   end
 end
