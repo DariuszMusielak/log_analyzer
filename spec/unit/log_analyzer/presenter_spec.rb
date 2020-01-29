@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 shared_examples 'prints results with correct description' do
   it do
     expect { subject }.to output(expected_output).to_stdout

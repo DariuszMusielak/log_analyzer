@@ -9,11 +9,11 @@ end
 RSpec.describe LogAnalyzer::Sorter do
   let(:entries) do
     [
-      { domain: '/help_page/1', ip: '126.318.035.038' },
-      { domain: '/help_page/1', ip: '184.123.665.067' },
-      { domain: '/contact', ip: '184.123.665.067' },
-      { domain: '/contact', ip: '184.123.665.067' },
-      { domain: '/contact', ip: '126.318.035.038' }
+      { domain: '/about_page/1', ip: '111.318.999.038' },
+      { domain: '/about_page/1', ip: '945.127.665.532' },
+      { domain: '/user', ip: '945.127.665.532' },
+      { domain: '/user', ip: '945.127.665.532' },
+      { domain: '/user', ip: '111.318.999.038' }
     ]
   end
 
@@ -24,8 +24,8 @@ RSpec.describe LogAnalyzer::Sorter do
       let(:analyze_type) { :visits }
       let(:expected_sorter_results) do
         [
-          { domain: '/help_page/1', count: 3 },
-          { domain: '/contact', count: 2 }
+          { domain: '/about_page/1', count: 3 },
+          { domain: '/user', count: 2 }
         ]
       end
     end
@@ -34,8 +34,8 @@ RSpec.describe LogAnalyzer::Sorter do
       let(:analyze_type) { :uniq_visits }
       let(:expected_sorter_results) do
         [
-          { domain: '/help_page/1', count: 2 },
-          { domain: '/contact', count: 2 }
+          { count: 2, domain: '/user' },
+          { count: 2, domain: '/about_page/1' }
         ]
       end
 

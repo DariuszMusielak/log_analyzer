@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe LogAnalyzer::Reader do
-  let(:file_path) { 'spec/fixtures/webserver.log' }
+  let(:file_path) { 'spec/fixtures/webserver_short.log' }
   let(:entries) { [] }
-  let(:expected_entires_count) { 500 }
-  let(:expected_domain) { '/about' }
-  let(:expected_ip) { '126.318.035.038' }
+  let(:expected_entires_count) { 5 }
+  let(:expected_domain) { '/test_page_2' }
+  let(:expected_ip) { '111.222.333.444' }
 
   describe '#read_entries' do
     subject { described_class.new(file_path) }

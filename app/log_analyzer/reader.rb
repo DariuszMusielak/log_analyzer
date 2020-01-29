@@ -10,7 +10,7 @@ module LogAnalyzer
 
     def read_entries(&block)
       File.open(file_path, 'r') do |file|
-        file.each_line do |line|
+        file.each do |line|
           domain, ip = line.split(' ')
           block.call(domain: domain, ip: ip)
         end
