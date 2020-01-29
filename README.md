@@ -68,7 +68,7 @@ rubocop
 ```
 add `-a` if you want autocorrection
 
-### Run specs
+### Run specs to see test coverege. Results will be present on a coverage/index.html
 ```bash
 bundle exec rspec
 ```

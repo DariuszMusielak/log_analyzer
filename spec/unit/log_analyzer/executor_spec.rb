@@ -26,10 +26,29 @@ RSpec.describe LogAnalyzer::Executor do
     end
 
     context 'when args valid' do
-      it 'calls log analyzer' do
-        expect(processor_double).to receive(:call).with(file_path, :visits).once
-        expect(processor_double).to receive(:call).with(file_path, :uniq_visits).once
-        subject
+      context "when analyze all" do
+        it 'calls log analyzer' do
+          expect(processor_double).to receive(:call).with(file_path, :visits).once
+          expect(processor_double).to receive(:call).with(file_path, :uniq_visits).once
+          subject
+        end
+      end
+
+      context "when analyze only visits" do
+        let(:args) { [file_path, "visits"] }
+        it 'calls log analyzer' do
+          expect(processor_double).to receive(:call).with(file_path, :visits).once
+          subject
+        end
+      end
+
+      context "when analyze unique visits" do
+        let(:args) { [file_path, "uniq_visits"] }
+
+        it 'calls log analyzer' do
+          expect(processor_double).to receive(:call).with(file_path, :uniq_visits).once
+          subject
+        end
       end
     end
 
