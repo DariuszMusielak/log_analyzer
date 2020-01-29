@@ -2,12 +2,24 @@
 
 require 'spec_helper'
 
+shared_examples "runs through whole processor" do
+  it do
+    expect(reader_double).to receive(:new).with(file_path)
+    expect(sorter_double).to receive(:call)
+      .with(entries, analyze_type).and_return(sorter_result)
+    expect(presenter_double).to receive(:call)
+      .with(sorter_result, analyze_type).and_return(true)
+    subject
+  end
+end
+
 RSpec.describe LogAnalyzer::Processor do
   let(:file_path) { 'spec/fixtures/webserver_short.log' }
-  let(:reader_double) { class_double('LogAnalyzer::Reader', new: logs) }
+  let(:reader_double) { class_double('LogAnalyzer::Reader', new: entries) }
   let(:sorter_double) { instance_double('LogAnalyzer::Sorter', call: sorter_result) }
+  let(:presenter_double) { instance_double('LogAnalyzer::Presenter', call: true) }
 
-  let(:logs) do
+  let(:entries) do
     [
       { domain: '/help_page/1', ip: '126.318.035.038' },
       { domain: '/help_page/1', ip: '184.123.665.067' },
@@ -21,7 +33,8 @@ RSpec.describe LogAnalyzer::Processor do
     subject do
       described_class.new(
         reader: reader_double,
-        sorter: sorter_double
+        sorter: sorter_double,
+        presenter: presenter_double
       ).call(file_path, analyze_type)
     end
 
@@ -34,14 +47,7 @@ RSpec.describe LogAnalyzer::Processor do
         ]
       end
 
-      it do
-        expect { subject }.to output(
-          <<~TEXT
-            /help_page/1 - 2 visits
-            /contact - 3 visits
-          TEXT
-        ).to_stdout
-      end
+      it_behaves_like 'runs through whole processor'
     end
 
     context "when 'analyze_type' is defined as unique_visits" do
@@ -53,14 +59,7 @@ RSpec.describe LogAnalyzer::Processor do
         ]
       end
 
-      it do
-        expect { subject }.to output(
-          <<~TEXT
-            /help_page/1 - 2 unique visits
-            /contact - 2 unique visits
-          TEXT
-        ).to_stdout
-      end
+      it_behaves_like 'runs through whole processor'
     end
   end
 end
