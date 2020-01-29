@@ -20,7 +20,7 @@ module LogAnalyzer
     attr_reader :data, :reader, :sorter, :presenter
 
     def load_data(file_path)
-      reader.new(file_path).each { |entry| @data << entry }
+      reader.new(file_path).read_entries { |entry| @data << entry }
     end
 
     def sort_data(analyze_type)

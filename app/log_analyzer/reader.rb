@@ -8,7 +8,7 @@ module LogAnalyzer
       @file_path = file_path
     end
 
-    def each(&block)
+    def read_entries(&block)
       File.open(file_path, 'r') do |file|
         file.each_line do |line|
           domain, ip = line.split(' ')
