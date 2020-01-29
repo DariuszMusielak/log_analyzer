@@ -2,13 +2,13 @@
 
 module LogAnalyzer
   class Processor
-    def initialize(reader: nil, sorter: nil)
+    def initialize(reader: nil, sorter: nil, presenter: nil)
       @reader = reader || Reader
       @sorter = sorter || Sorter.new
+      @presenter = presenter || Presenter.new
     end
 
     def call(file_path, analyze_type)
-      @analyze_type = analyze_type
       @data = []
       load_data(file_path)
       results = sort_data(analyze_type)
@@ -17,7 +17,7 @@ module LogAnalyzer
 
     private
 
-    attr_reader :data, :reader, :sorter
+    attr_reader :data, :reader, :sorter, :presenter
 
     def load_data(file_path)
       reader.new(file_path).each { |entry| @data << entry }
@@ -28,9 +28,7 @@ module LogAnalyzer
     end
 
     def print_results(results, analyze_type)
-      description = (analyze_type == :visits ? 'visits' : 'unique visits')
-
-      results.each { |result| puts "#{result[:domain]} - #{result[:count]} #{description}" }
+      presenter.call(results, analyze_type)
     end
   end
 end
