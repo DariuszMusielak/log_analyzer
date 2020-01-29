@@ -29,7 +29,7 @@ RSpec.describe LogAnalyzer::Processor do
     [
       { domain: '/help_page/1', ip: '126.318.035.038' },
       { domain: '/contact', ip: '184.123.665.067' },
-      { domain: '/contact', ip: '126.318.035.038' },
+      { domain: '/contact', ip: '126.318.035.038' }
     ]
   end
 
