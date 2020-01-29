@@ -4,7 +4,8 @@ require 'spec_helper'
 
 RSpec.describe LogAnalyzer::Processor do
   let(:file_path) { 'spec/fixtures/webserver_short.log' }
-  let(:reader_double) { class_double('LogAnalyzer::Reader', new: logs ) }
+  let(:reader_double) { class_double('LogAnalyzer::Reader', new: logs) }
+  let(:sorter_double) { instance_double('LogAnalyzer::Sorter', call: sorter_result) }
 
   let(:logs) do
     [
@@ -18,11 +19,20 @@ RSpec.describe LogAnalyzer::Processor do
 
   describe '#call' do
     subject do
-      described_class.new.call(file_path, analyze_type)
+      described_class.new(
+        reader: reader_double,
+        sorter: sorter_double
+      ).call(file_path, analyze_type)
     end
 
     context "when 'analyze_type' is defined as :visits" do
       let(:analyze_type) { :visits }
+      let(:sorter_result) do
+        [
+          { domain: '/help_page/1', count: 2 },
+          { domain: '/contact', count: 3 }
+        ]
+      end
 
       it do
         expect { subject }.to output(
@@ -36,6 +46,12 @@ RSpec.describe LogAnalyzer::Processor do
 
     context "when 'analyze_type' is defined as unique_visits" do
       let(:analyze_type) { :uniq_visits }
+      let(:sorter_result) do
+        [
+          { domain: '/help_page/1', count: 2 },
+          { domain: '/contact', count: 2 }
+        ]
+      end
 
       it do
         expect { subject }.to output(
