@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'app/translator'
-require 'app/log_analyzer_application'
+require 'app/dictionary'
+require 'app/log_analyzer'
 
 require 'app/log_analyzer/executor'
 require 'app/log_analyzer/input_validator'
