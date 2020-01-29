@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-shared_examples "runs through whole processor" do
+shared_examples 'runs through whole processor' do
   it do
     expect(reader_double).to receive(:new).with(file_path)
     expect(sorter_double).to receive(:call)

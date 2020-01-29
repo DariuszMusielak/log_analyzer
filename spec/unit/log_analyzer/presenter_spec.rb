@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-shared_examples "prints results with correct description" do
+shared_examples 'prints results with correct description' do
   it do
     expect { subject }.to output(expected_output).to_stdout
   end
@@ -28,7 +28,7 @@ RSpec.describe LogAnalyzer::Presenter do
         TEXT
       end
 
-      it_behaves_like "prints results with correct description"
+      it_behaves_like 'prints results with correct description'
     end
 
     context "when 'analyze_type' is defined as unique_visits" do
@@ -40,7 +40,7 @@ RSpec.describe LogAnalyzer::Presenter do
         TEXT
       end
 
-      it_behaves_like "prints results with correct description"
+      it_behaves_like 'prints results with correct description'
     end
   end
 end
