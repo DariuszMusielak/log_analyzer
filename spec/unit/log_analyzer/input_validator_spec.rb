@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 shared_examples 'incorrect args' do |error_message|
   it { expect(subject).to eq(false) }
 
@@ -23,7 +21,7 @@ RSpec.describe LogAnalyzer::InputValidator do
     end
 
     context "when 'args' set" do
-      context 'when args incorrect type' do
+      context 'when file_path incorrect type' do
         let(:args) { [1] }
 
         it_behaves_like 'incorrect args', "File doesn't exist for provided path."
@@ -37,7 +35,7 @@ RSpec.describe LogAnalyzer::InputValidator do
         end
 
         context 'when file is present' do
-          let(:args) { ['spec/fixtures/webserver.log'] }
+          let(:args) { ['spec/fixtures/webserver_short.log'] }
 
           it { expect(subject).to eq(true) }
         end

@@ -3,9 +3,14 @@
 require 'spec_helper'
 
 RSpec.describe LogAnalyzer::Executor do
-  subject { described_class.new(input_validator_double, processor_double).call(args) }
+  subject do
+    described_class.new(
+      input_validator: input_validator_double,
+      processor: processor_double
+    ).call(args)
+  end
   let(:args) { [file_path] }
-  let(:file_path) { 'spec/fixtures/webserver.log' }
+  let(:file_path) { 'spec/fixtures/webserver_short.log' }
 
   let(:input_validator_double) do
     instance_double('LogAnalyzer::InputValidator', validate: valid, errors: errors)
