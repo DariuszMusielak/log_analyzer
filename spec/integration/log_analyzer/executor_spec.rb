@@ -42,6 +42,12 @@ RSpec.describe LogAnalyzer::Executor do
 
         it_behaves_like 'displays error message', "File doesn't exist for provided path."
       end
+
+      context "when optional argument incorrect" do
+        let(:args) { [file_path, 'incorrect'] }
+        it_behaves_like 'displays error message',
+                        "Second argument is allowed from the list: all, visits, uniq_visits."
+      end
     end
   end
 end
