@@ -41,5 +41,30 @@ RSpec.describe LogAnalyzer::InputValidator do
         end
       end
     end
+
+    context 'when optional args set' do
+      let(:args) { ['spec/fixtures/webserver_short.log', optional_arg] }
+      let(:optional_arg) { 'wrong' }
+
+      context "when 'all' set" do
+        let(:optional_arg) { 'all' }
+        it { expect(subject).to eq(true) }
+      end
+
+      context "when 'visits' set" do
+        let(:optional_arg) { 'visits' }
+        it { expect(subject).to eq(true) }
+      end
+
+      context "when 'uniq_visits' set" do
+        let(:optional_arg) { 'uniq_visits' }
+        it { expect(subject).to eq(true) }
+      end
+
+      context 'when iuncorrect value set' do
+        let(:optional_arg) { 'wrong' }
+        it_behaves_like 'incorrect args', "Second argument is allowed from the list: all, visits, uniq_visits."
+      end
+    end
   end
 end
