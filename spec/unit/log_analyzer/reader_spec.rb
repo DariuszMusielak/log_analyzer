@@ -12,7 +12,7 @@ RSpec.describe LogAnalyzer::Reader do
   describe '#each' do
     subject { described_class.new(file_path) }
 
-    it "reads entries from file" do
+    it 'reads entries from file' do
       subject.each { |entry| entries << entry }
 
       expect(entries.count).to eq(expected_entires_count)

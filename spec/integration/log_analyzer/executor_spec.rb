@@ -40,7 +40,7 @@ RSpec.describe LogAnalyzer::Executor do
       end
 
       context 'when file does not exists' do
-        let(:args) { ["not/existing/file/path"] }
+        let(:args) { ['not/existing/file/path'] }
 
         it_behaves_like 'displays error message', "File doesn't exist for provided path."
       end
