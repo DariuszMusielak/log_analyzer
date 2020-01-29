@@ -2,7 +2,6 @@
 
 module LogAnalyzer
   class Executor
-    def initialize(input_validator = nil, processor = nil)
     def initialize(input_validator: nil, processor: nil)
       @input_validator = input_validator || InputValidator.new
       @processor = processor || Processor.new
