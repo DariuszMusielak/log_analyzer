@@ -1,6 +1,6 @@
-Documentation:
+Style/Documentation:
   Enabled: false
-Metrics/LineLength:
+Layout/LineLength:
   Max: 110
 AllCops:
   TargetRubyVersion: 2.7.0
