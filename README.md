@@ -62,13 +62,14 @@ Result looks like this:
 ruby bin/console
 ```
 
-### Lints and fixes files
+### Linters
 ```bash
 rubocop
 ```
 add `-a` if you want autocorrection
 
-### Run specs to see test coverege. Results will be present on a coverage/index.html
+### Run specs
 ```bash
 bundle exec rspec
 ```
+To see test coverege after running specs go to coverage/index.html
