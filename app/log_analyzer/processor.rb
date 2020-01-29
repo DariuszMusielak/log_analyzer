@@ -2,6 +2,11 @@
 
 module LogAnalyzer
   class Processor
+
+    def initialize(reader = nil)
+      @reader = reader || Reader
+    end
+
     def call(file_path, analyze_type)
       @file_path = file_path
       @analyze_type = analyze_type
@@ -13,7 +18,11 @@ module LogAnalyzer
 
     private
 
-    attr_reader :data, :file_path, :analyze_type
+    attr_reader :data, :file_path, :analyze_type, :reader
+
+    def load_data
+      reader.new(file_path).each { |entry| @data << entry }
+    end
 
     def sort_and_print
       results = {
@@ -22,15 +31,6 @@ module LogAnalyzer
       }.fetch(analyze_type)
 
       print_results(results)
-    end
-
-    def load_data
-      File.open(file_path, 'r') do |file|
-        file.each_line do |line|
-          domain, ip = line.split(' ')
-          @data << { domain: domain, ip: ip }
-        end
-      end
     end
 
     def group_entries!
