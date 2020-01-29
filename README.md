@@ -6,8 +6,15 @@ bundle exec bin/setup
 ```
 
 ### Usage
+
+To run script use:
 ```
-TODO
+ruby bin/parse file_path
+```
+
+To run console use:
+```
+ruby bin/console
 ```
 
 ### Lints and fixes files
