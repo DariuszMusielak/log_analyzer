@@ -21,6 +21,7 @@ RSpec.describe LogAnalyzer::Presenter do
       let(:analyze_type) { :visits }
       let(:expected_output) do
         <<~TEXT
+          ----- Statistics for visits ----
           /help_page/1 - 2 visits
           /contact - 3 visits
         TEXT
@@ -33,6 +34,7 @@ RSpec.describe LogAnalyzer::Presenter do
       let(:analyze_type) { :uniq_visits }
       let(:expected_output) do
         <<~TEXT
+          ----- Statistics for unique visits ----
           /help_page/1 - 2 unique visits
           /contact - 3 unique visits
         TEXT

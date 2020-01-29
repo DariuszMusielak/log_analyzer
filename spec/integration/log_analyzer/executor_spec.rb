@@ -16,8 +16,10 @@ RSpec.describe LogAnalyzer::Executor do
     it do
       expect { subject }.to output(
         <<~TEXT
+          ----- Statistics for visits ----
           /test_page_2 - 3 visits
           /test_page_1/1 - 2 visits
+          ----- Statistics for unique visits ----
           /test_page_2 - 2 unique visits
           /test_page_1/1 - 2 unique visits
         TEXT

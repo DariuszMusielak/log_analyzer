@@ -8,7 +8,7 @@ RSpec.describe LogAnalyzer do
     let(:dictionary_double) { instance_double('Dictionary', get: true) }
 
     before do
-      allow(Dictionary).to receive(:new).and_return(dictionary_double)
+      allow(LogAnalyzer).to receive(:dictionary).and_return(dictionary_double)
     end
 
     it "triggers proper method on dicsionary" do

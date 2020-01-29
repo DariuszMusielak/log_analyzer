@@ -6,7 +6,6 @@ require 'yaml'
 # one for validaitng selected language
 # second for loading dictionry
 # third for handling finding wording for passed arguments
-# forth consider different way of including Dicionary into application
 
 class Dictionary
   DEFAULT_LANGUAGE = :en

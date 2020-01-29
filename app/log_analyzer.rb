@@ -4,7 +4,6 @@ module LogAnalyzer
   class << self
 
     def i18n(key_chain)
-      binding.pry
       dictionary.get(key_chain)
     end
 

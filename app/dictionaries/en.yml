@@ -4,3 +4,6 @@ errors:
   file_missing: File doesn't exist for provided path.
   missing_file_path: File path is required as a first argument.
   incorrect_analyze_type: "Second argument is allowed from the list: all, visits, uniq_visits."
+statistics:
+  visits: ----- Statistics for visits ----
+  uniq_visits: ----- Statistics for unique visits ----
