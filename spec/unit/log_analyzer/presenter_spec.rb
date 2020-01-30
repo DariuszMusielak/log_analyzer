@@ -9,8 +9,8 @@ end
 RSpec.describe LogAnalyzer::Presenter do
   let(:results) do
     [
-      { domain: '/help_page/1', count: 2 },
-      { domain: '/contact', count: 3 }
+      { domain: '/help_page/1', result: 2 },
+      { domain: '/contact', result: 3 }
     ]
   end
 

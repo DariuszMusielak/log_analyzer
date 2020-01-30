@@ -2,16 +2,21 @@
 
 module LogAnalyzer
   class Sorter
-    def call(domains_repository, analyze_type)
-      sort(domains_repository, analyze_type)
-    end
+    class << self
+      def sort(data, sort_direction: nil)
+        case sort_direction
+        when :asc  then default_sort(data)
+        when :desc then default_sort(data).reverse
+        else
+          default_sort(data)
+        end
+      end
 
-    private
+      private
 
-    def sort(domains_repository, analyze_type)
-      domains_repository.map do |domain_name, entries|
-        { domain: domain_name, count: entries.count_entries(analyze_type) }
-      end.sort_by(&:values).reverse
+      def default_sort(data)
+        data.sort_by { |result| result[:result] }
+      end
     end
   end
 end

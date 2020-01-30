@@ -1,26 +1,54 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe LogAnalyzer::Sorter do
-  let(:entries) do
-    {
-      '/about_page/1' => instance_double('LogAnalyzer::EntryRepository', count_entries: 2),
-      '/user' => instance_double('LogAnalyzer::EntryRepository', count_entries: 3)
-    }
-  end
-
   describe '#call' do
-    subject { described_class.new.call(entries, analyze_type) }
+    subject { described_class.sort(entries, sort_direction: sort_direction) }
 
-    let(:analyze_type) { :visits }
-    let(:expected_sorter_results) do
+    let(:entries) do
       [
-        { domain: '/user', count: 3 },
-        { domain: '/about_page/1', count: 2 }
+        { domain: '/about_page/1', result: 5 },
+        { domain: '/user', result: 3 },
+        { domain: '/help', result: 8 }
       ]
     end
 
-    it { expect(subject).to eq(expected_sorter_results) }
+    context 'when `sort_direction` set to `:decs`' do
+      let(:sort_direction) { :desc }
+      let(:expected_sorter_results) do
+        [
+          { domain: '/help', result: 8 },
+          { domain: '/about_page/1', result: 5 },
+          { domain: '/user', result: 3 }
+        ]
+      end
+
+      it { expect(subject).to eq(expected_sorter_results) }
+    end
+
+    context 'when `sort_direction` set to `:asc`' do
+      let(:sort_direction) { :asc }
+      let(:expected_sorter_results) do
+        [
+          { domain: '/user', result: 3 },
+          { domain: '/about_page/1', result: 5 },
+          { domain: '/help', result: 8 }
+        ]
+      end
+
+      it { expect(subject).to eq(expected_sorter_results) }
+    end
+
+    context 'when `sort_direction` not specified' do
+      let(:sort_direction) { nil }
+      let(:expected_sorter_results) do
+        [
+          { domain: '/user', result: 3 },
+          { domain: '/about_page/1', result: 5 },
+          { domain: '/help', result: 8 }
+        ]
+      end
+
+      it { expect(subject).to eq(expected_sorter_results) }
+    end
   end
 end

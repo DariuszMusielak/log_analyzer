@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 shared_examples 'runs through whole processor' do
   it do
     expect(reader_double_class).to receive(:new)
@@ -10,8 +8,10 @@ shared_examples 'runs through whole processor' do
       .and_yield(*entries[0])
       .and_yield(*entries[1])
       .and_yield(*entries[2])
-    expect(sorter_double).to receive(:call)
-      .with(domain_repository_double, analyze_type).and_return(sorter_result)
+    expect(analyzer_double).to receive(:call)
+      .with(domain_repository_double, analyze_type).and_return(analyzed_data)
+    expect(sorter_double_class).to receive(:sort)
+      .with(analyzed_data, sort_direction: :desc).and_return(sorter_result)
     expect(presenter_double).to receive(:call)
       .with(sorter_result, analyze_type).and_return(true)
     subject
@@ -22,7 +22,8 @@ RSpec.describe LogAnalyzer::Processor do
   let(:file_path) { 'spec/fixtures/webserver_short.log' }
   let(:reader_double_class) { class_double('LogAnalyzer::Reader', new: reader_double) }
   let(:reader_double) { instance_double('LogAnalyzer::Reader') }
-  let(:sorter_double) { instance_double('LogAnalyzer::Sorter', call: sorter_result) }
+  let(:sorter_double_class) { class_double('LogAnalyzer::Sorter', sort: sorter_result) }
+  let(:analyzer_double) { instance_double('LogAnalyzer::Analyzer', call: analyzed_data) }
   let(:presenter_double) { instance_double('LogAnalyzer::Presenter', call: true) }
   let(:domain_repository_double) { instance_double('LogAnalyzer::Repositories::Domains', add: true) }
   let(:domain_repository_double_class) do
@@ -47,10 +48,11 @@ RSpec.describe LogAnalyzer::Processor do
   describe '#call' do
     subject do
       described_class.new(
-        reader: reader_double_class,
-        sorter: sorter_double,
+        analyzer: analyzer_double,
         presenter: presenter_double,
-        repository: domain_repository_double_class
+        reader: reader_double_class,
+        repository: domain_repository_double_class,
+        sorter: sorter_double_class
       ).call(file_path, analyze_type)
     end
 
@@ -58,8 +60,14 @@ RSpec.describe LogAnalyzer::Processor do
       let(:analyze_type) { :visits }
       let(:sorter_result) do
         [
-          { domain: '/help_page/1', count: 2 },
-          { domain: '/contact', count: 3 }
+          { domain: '/help_page/1', result: 2 },
+          { domain: '/contact', result: 3 }
+        ]
+      end
+      let(:analyzed_data) do
+        [
+          { domain: '/help_page/1', result: 2 },
+          { domain: '/contact', result: 3 }
         ]
       end
 
@@ -70,8 +78,14 @@ RSpec.describe LogAnalyzer::Processor do
       let(:analyze_type) { :uniq_visits }
       let(:sorter_result) do
         [
-          { domain: '/help_page/1', count: 2 },
-          { domain: '/contact', count: 2 }
+          { domain: '/help_page/1', result: 2 },
+          { domain: '/contact', result: 2 }
+        ]
+      end
+      let(:analyzed_data) do
+        [
+          { domain: '/help_page/1', result: 2 },
+          { domain: '/contact', result: 2 }
         ]
       end
 

@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-require 'spec_helper'
+# frozen_string_literal: trueś
 
 RSpec.describe LogAnalyzer::Reader do
   let(:file_path) { 'spec/fixtures/webserver_short.log' }

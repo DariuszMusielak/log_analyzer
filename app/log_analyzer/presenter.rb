@@ -7,7 +7,7 @@ module LogAnalyzer
       puts LogAnalyzer.i18n("statistics.#{analyze_type}")
 
       results.each do |result|
-        puts "#{result[:domain]} - #{result[:count]} #{description}"
+        puts "#{result[:domain]} - #{result[:result]} #{description}"
       end
     end
   end

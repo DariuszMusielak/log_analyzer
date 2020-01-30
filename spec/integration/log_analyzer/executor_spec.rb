@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-require 'spec_helper'
+# frozen_string_literal: trueś
 
 shared_examples 'displays error message' do |error_message|
   it { expect { subject }.to output(error_message).to_stdout }
