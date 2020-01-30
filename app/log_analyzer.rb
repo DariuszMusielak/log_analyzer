@@ -2,7 +2,6 @@
 
 module LogAnalyzer
   class << self
-
     def i18n(key_chain)
       dictionary.get(key_chain)
     end

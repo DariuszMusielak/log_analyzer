@@ -26,8 +26,8 @@ ruby bin/parse file_path optional_argument
 
 You can run example on your own following these steps:
 
-1. Clone repozitory
-2. Open repozitory directory
+1. Clone repository
+2. Open repository directory
 3. Execute
 ```bash
 ruby bin/setup
@@ -72,4 +72,4 @@ add `-a` if you want autocorrection
 ```bash
 bundle exec rspec
 ```
-To see test coverege after running specs go to coverage/index.html
+To see test coverage after running specs go to coverage/index.html

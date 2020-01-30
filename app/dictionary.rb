@@ -10,7 +10,7 @@ require 'yaml'
 class Dictionary
   DEFAULT_LANGUAGE = :en
   KEYS_DELIMETER = '.'
-  DICTIONARIES = [:en]
+  DICTIONARIES = [:en].freeze
 
   attr_reader :dictionary
 
@@ -30,6 +30,7 @@ class Dictionary
 
   def language_allowed?
     return if DICTIONARIES.include?(language)
+
     raise ArgumentError, "Allowed dictionaries are: #{DICTIONARIES.join(', ')}"
   end
 
@@ -41,6 +42,6 @@ class Dictionary
 
   def dictionary_file_path
     main_directory = Dir.glob('*').first
-    "#{main_directory}/dictionaries/#{language.to_s}.yml"
+    "#{main_directory}/dictionaries/#{language}.yml"
   end
 end

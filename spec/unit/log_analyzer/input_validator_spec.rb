@@ -63,7 +63,8 @@ RSpec.describe LogAnalyzer::InputValidator do
 
       context 'when iuncorrect value set' do
         let(:optional_arg) { 'wrong' }
-        it_behaves_like 'incorrect args', "Second argument is allowed from the list: all, visits, uniq_visits."
+        it_behaves_like 'incorrect args',
+                        'Second argument is allowed from the list: all, visits, uniq_visits.'
       end
     end
   end

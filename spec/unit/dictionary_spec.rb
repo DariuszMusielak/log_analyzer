@@ -3,13 +3,13 @@
 RSpec.describe Dictionary do
   let(:file_path) { 'spec/fixtures/dictionary/en.yml' }
 
-  context "when unknow language set" do
+  context 'when unknow language set' do
     subject { described_class.new(language: :unknown) }
 
     it { expect { subject }.to raise_error(ArgumentError) }
   end
 
-  describe "#get" do
+  describe '#get' do
     subject { described_class.new.get(key_chain) }
 
     before do
@@ -17,17 +17,17 @@ RSpec.describe Dictionary do
     end
 
     let(:dictionary_hash) do
-      { "errors" => { "test" => "test error" } }
+      { 'errors' => { 'test' => 'test error' } }
     end
 
-    context "when wording exists for key_chain" do
-      let(:key_chain) { "errors.test" }
+    context 'when wording exists for key_chain' do
+      let(:key_chain) { 'errors.test' }
 
-      it { expect(subject).to eq("test error") }
+      it { expect(subject).to eq('test error') }
     end
 
     context "when wording doesn't exist for key_chain" do
-      let(:key_chain) { "unknown" }
+      let(:key_chain) { 'unknown' }
 
       it { expect(subject).to be_nil }
     end
