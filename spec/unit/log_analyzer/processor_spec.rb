@@ -7,11 +7,11 @@ shared_examples 'runs through whole processor' do
     expect(reader_double_class).to receive(:new)
       .with(file_path).and_return(reader_double)
     expect(reader_double).to receive(:read_entries)
-      .and_yield(entries[0])
-      .and_yield(entries[1])
-      .and_yield(entries[2])
+      .and_yield(*entries[0])
+      .and_yield(*entries[1])
+      .and_yield(*entries[2])
     expect(sorter_double).to receive(:call)
-      .with(entries, analyze_type).and_return(sorter_result)
+      .with(domain_repository_double, analyze_type).and_return(sorter_result)
     expect(presenter_double).to receive(:call)
       .with(sorter_result, analyze_type).and_return(true)
     subject
@@ -24,20 +24,24 @@ RSpec.describe LogAnalyzer::Processor do
   let(:reader_double) { instance_double('LogAnalyzer::Reader') }
   let(:sorter_double) { instance_double('LogAnalyzer::Sorter', call: sorter_result) }
   let(:presenter_double) { instance_double('LogAnalyzer::Presenter', call: true) }
+  let(:domain_repository_double) { instance_double('LogAnalyzer::Repositories::Domains', add: true) }
+  let(:domain_repository_double_class) do
+    class_double('LogAnalyzer::Repositories::Domains', new: domain_repository_double)
+  end
 
   let(:entries) do
     [
-      { domain: '/help_page/1', ip: '126.318.035.038' },
-      { domain: '/contact', ip: '184.123.665.067' },
-      { domain: '/contact', ip: '126.318.035.038' }
+      ['/help_page/1', '126.318.035.038'],
+      ['/contact', '184.123.665.067'],
+      ['/contact', '126.318.035.038']
     ]
   end
 
   before do
     allow(reader_double).to receive(:read_entries)
-      .and_yield(entries[0])
-      .and_yield(entries[1])
-      .and_yield(entries[2])
+      .and_yield(*entries[0])
+      .and_yield(*entries[1])
+      .and_yield(*entries[2])
   end
 
   describe '#call' do
@@ -45,7 +49,8 @@ RSpec.describe LogAnalyzer::Processor do
       described_class.new(
         reader: reader_double_class,
         sorter: sorter_double,
-        presenter: presenter_double
+        presenter: presenter_double,
+        repository: domain_repository_double_class
       ).call(file_path, analyze_type)
     end
 
